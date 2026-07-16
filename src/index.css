@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #0d0d1a;
+  transition: background-color 0.3s ease;
+}
+
+html:not(.dark) body {
+  background-color: #f4f4fa;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.12); }
+
+/* Hide scrollbar for mobile */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Loading dots */
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.4); opacity: 1; }
+}
+.loading-dot:nth-child(1) { animation: pulse-dot 1.2s ease-in-out infinite; }
+.loading-dot:nth-child(2) { animation: pulse-dot 1.2s ease-in-out 0.2s infinite; }
+.loading-dot:nth-child(3) { animation: pulse-dot 1.2s ease-in-out 0.4s infinite; }
