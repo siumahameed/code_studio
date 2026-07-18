@@ -5,14 +5,12 @@ interface SqlJsStatic {
 }
 interface Database {
   run(sql: string): void
-  prepare(sql: string): Statement
+  exec(sql: string): QueryExecResult[]
   export(): Uint8Array
 }
-interface Statement {
-  getColumnNames(): string[]
-  step(): boolean
-  getAsObject(): Record<string, unknown>
-  free(): void
+interface QueryExecResult {
+  columns: string[]
+  values: unknown[][]
 }
 
 const DB_KEY = 'codestudio-sql-db'
@@ -93,17 +91,13 @@ export async function runSQL(code: string): Promise<{
 
     for (const stmtText of statements) {
       try {
-        const stmt = db.prepare(stmtText)
-        if (stmt.getColumnNames().length > 0) {
-          const columns = stmt.getColumnNames()
-          const rows: string[][] = []
-          while (stmt.step()) {
-            const row = stmt.getAsObject() as Record<string, unknown>
-            rows.push(columns.map((col: string) => String(row[col] ?? 'NULL')))
-          }
+        const results = db.exec(stmtText)
+        if (results.length > 0) {
+          const r = results[0]
+          const columns = r.columns
+          const rows = r.values.map(row => columns.map((_, i) => String(row[i] ?? 'NULL')))
           lastTable = { columns, rows }
         }
-        stmt.free()
         if (isWriteQuery(stmtText)) saveDb()
       } catch (runErr) {
         errors.push(String(runErr))
