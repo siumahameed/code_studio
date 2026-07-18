@@ -133,7 +133,7 @@ export default function App() {
         )}
       </div>
 
-      <div ref={splitContainerRef} id="split-container" className="hidden md:flex flex-1 min-h-0 p-3 gap-0" style={{ height: 'calc(100vh - 64px)' }}>
+      <div ref={splitContainerRef} id="split-container" className="hidden md:flex flex-1 min-h-0 p-3 gap-0">
         <div style={{ width: `${splitPos}%` }} className="flex flex-col min-h-0 min-w-0 pr-1.5">
           <div className="flex-1 min-h-0" style={{ minHeight: 0 }}><Editor /></div>
           <StatusBar />
