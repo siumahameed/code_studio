@@ -99,8 +99,8 @@ export default function CodeEditor() {
         ))}
       </div>
 
-      <div className="flex-1 min-h-0 relative">
-        <div className="absolute inset-0">
+      <div className="flex-1 min-h-0">
+        <div className="h-full w-full" style={{ minHeight: 0 }}>
           <Editor key={state.language + state.theme} language={currentLang.monacoLanguage} value={state.code}
           theme={state.theme === 'dark' ? MONACO_THEMES.dark : MONACO_THEMES.light}
           onMount={handleMount} onChange={(value) => setCode(value ?? '')}
