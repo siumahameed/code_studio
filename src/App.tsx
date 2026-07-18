@@ -93,18 +93,20 @@ export default function App() {
 
   if (state.showWelcome) {
     return (
-      <div className={`h-screen flex flex-col ${isDark ? 'bg-slate-900' : 'bg-slate-50'}`}>
-        <div className="flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6 flex-shrink-0">
+      <div className={`h-screen flex flex-col ${isDark ? 'bg-slate-950' : 'bg-slate-50'}`}>
+        <div className="flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6 flex-shrink-0 relative z-10">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-indigo-500/20 flex-shrink-0"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg></div>
-            <span className="font-extrabold text-xl bg-gradient-to-r from-indigo-500 via-violet-500 to-emerald-500 bg-clip-text text-transparent truncate">CodeStudio</span>
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 flex-shrink-0">
+              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+            </div>
+            <span className="font-extrabold text-lg bg-gradient-to-r from-indigo-400 via-violet-400 to-emerald-400 bg-clip-text text-transparent truncate">CodeStudio</span>
           </div>
           <button onClick={() => setTheme(isDark ? 'light' : 'dark')}
-            className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg transition active:scale-90 flex-shrink-0 ${isDark ? 'bg-slate-800 hover:bg-slate-700' : 'bg-white/80 hover:bg-white shadow-sm border border-slate-200/60'}`}>
+            className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg transition-all active:scale-90 flex-shrink-0 ${isDark ? 'bg-slate-800/80 hover:bg-slate-700 backdrop-blur-sm' : 'bg-white/80 hover:bg-white shadow-sm border border-slate-200/60 backdrop-blur-sm'}`}>
             {isDark ? '☀️' : '🌙'}
           </button>
         </div>
-        <div className="flex-1 min-h-0">
+        <div className="flex-1 min-h-0 relative z-10">
           <WelcomePanel />
         </div>
       </div>
@@ -135,7 +137,7 @@ export default function App() {
 
       <div ref={splitContainerRef} id="split-container" className="hidden md:flex flex-1 min-h-0 p-3 gap-0">
         <div style={{ width: `${splitPos}%` }} className="flex flex-col min-h-0 min-w-0 pr-1.5">
-          <div className="flex-1 min-h-0" style={{ minHeight: 0 }}><Editor /></div>
+          <div className="flex flex-col flex-1 min-h-0" style={{ minHeight: 0 }}><Editor /></div>
           <StatusBar />
         </div>
         <div onMouseDown={() => { isDragging.current = true }}

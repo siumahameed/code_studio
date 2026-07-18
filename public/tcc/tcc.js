@@ -4822,7 +4822,7 @@ function callMain(args = []) {
     return handleException(e);
   }
 }
-Module['callMain'] = callMain;
+Object.defineProperty(Module, 'callMain', { value: callMain, writable: true, configurable: true });
 
 function stackCheckInit() {
   // This is normally called automatically during __wasm_call_ctors but need to

@@ -99,8 +99,8 @@ export default function CodeEditor() {
         ))}
       </div>
 
-      <div key={state.language} className="flex-1 min-h-0 animate-fade-in">
-        <div className="h-full w-full" style={{ minHeight: 0 }}>
+      <div key={state.language} className="flex-1 min-h-0 relative animate-fade-in">
+        <div className="absolute inset-0">
           <Editor key={state.theme} language={currentLang.monacoLanguage} value={state.code}
           theme={state.theme === 'dark' ? MONACO_THEMES.dark : MONACO_THEMES.light}
           onMount={handleMount} onChange={(value) => setCode(value ?? '')}
@@ -114,8 +114,8 @@ export default function CodeEditor() {
             formatOnPaste: true, suggestOnTriggerCharacters: true, quickSuggestions: true,
             folding: true, links: false, fixedOverflowWidgets: true,
           }} />
+        </div>
       </div>
-    </div>
     </div>
   )
 }
