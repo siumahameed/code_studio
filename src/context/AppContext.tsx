@@ -39,7 +39,7 @@ function initialState(): AppState {
   return {
     language: savedLanguage, theme: savedTheme,
     code: savedCode[savedLanguage] || getTemplate(savedLanguage),
-    output: [], activeMobileTab: savedLanguage === 'html' ? 'preview' : 'editor',
+    output: [],     activeMobileTab: 'editor',
     isLoading: false, loadingMessage: '',
     fontSize: savedFontSize, isFullscreen: false,
     showWelcome: true,
@@ -50,7 +50,7 @@ function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
     case 'SET_LANGUAGE': {
       const saved = loadFromStorage<Record<string, string>>(STORAGE_KEY, {})
-      return { ...state, language: action.payload, code: saved[action.payload] || getTemplate(action.payload), output: [], showWelcome: false, activeMobileTab: action.payload === 'html' ? 'preview' : 'editor' }
+      return { ...state, language: action.payload, code: saved[action.payload] || getTemplate(action.payload), output: [], showWelcome: false, activeMobileTab: 'editor' }
     }
     case 'SET_CODE': return { ...state, code: action.payload }
     case 'SET_THEME': return { ...state, theme: action.payload }
@@ -61,7 +61,7 @@ function reducer(state: AppState, action: Action): AppState {
     case 'SET_FONT_SIZE': return { ...state, fontSize: action.payload }
     case 'SET_FULLSCREEN': return { ...state, isFullscreen: action.payload }
     case 'RESET_CODE': return { ...state, code: getTemplate(state.language) }
-    case 'LOAD_LESSON': return { ...state, language: action.payload.language, code: action.payload.code, output: [], showWelcome: false, activeMobileTab: action.payload.language === 'html' ? 'preview' : 'editor' }
+    case 'LOAD_LESSON': return { ...state, language: action.payload.language, code: action.payload.code, output: [], showWelcome: false, activeMobileTab: 'editor' }
     case 'SET_SHOW_WELCOME': return { ...state, showWelcome: action.payload }
     case 'RESTORE_STATE': return { ...state, ...action.payload }
     default: return state

@@ -142,7 +142,7 @@ export default function App() {
           className={`w-2 cursor-col-resize flex-shrink-0 flex items-center justify-center rounded-full transition-colors ${isDark ? 'hover:bg-slate-700/50' : 'hover:bg-slate-200/50'} active:bg-slate-300/30`}>
           <div className={`w-0.5 h-10 rounded-full ${isDark ? 'bg-slate-700' : 'bg-slate-300'}`} />
         </div>
-        <div style={{ width: `${100 - splitPos}%` }} className="flex flex-col min-h-0 min-w-0 pl-1.5">
+        <div key={state.language} style={{ width: `${100 - splitPos}%` }} className="flex flex-col min-h-0 min-w-0 pl-1.5 animate-fade-in">
           {rightPanel}
         </div>
       </div>
