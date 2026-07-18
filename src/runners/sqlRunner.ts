@@ -55,6 +55,28 @@ function isWriteQuery(sql: string): boolean {
   return s.startsWith('create') || s.startsWith('insert') || s.startsWith('update') || s.startsWith('delete') || s.startsWith('drop') || s.startsWith('alter') || s.startsWith('replace')
 }
 
+function splitSqlStatements(code: string): string[] {
+  const result: string[] = []
+  let current = ''
+  let inSingleQuote = false
+  let inDoubleQuote = false
+  for (let i = 0; i < code.length; i++) {
+    const ch = code[i]
+    if (ch === "'" && !inDoubleQuote) inSingleQuote = !inSingleQuote
+    else if (ch === '"' && !inSingleQuote) inDoubleQuote = !inDoubleQuote
+    else if (ch === ';' && !inSingleQuote && !inDoubleQuote) {
+      const trimmed = current.trim()
+      if (trimmed) result.push(trimmed)
+      current = ''
+      continue
+    }
+    current += ch
+  }
+  const trimmed = current.trim()
+  if (trimmed) result.push(trimmed)
+  return result
+}
+
 export async function runSQL(code: string): Promise<{
   stdout: string
   stderr: string
@@ -65,12 +87,13 @@ export async function runSQL(code: string): Promise<{
     await loadSQL()
     if (!sqlInstance || !db) throw new Error('SQL failed to initialize')
 
-    const lines = code.split(';').map(s => s.trim()).filter(s => s.length > 0)
+    const statements = splitSqlStatements(code)
     let lastTable: { columns: string[]; rows: string[][] } | undefined
+    const errors: string[] = []
 
-    for (const line of lines) {
+    for (const stmtText of statements) {
       try {
-        const stmt = db.prepare(line)
+        const stmt = db.prepare(stmtText)
         if (stmt.getColumnNames().length > 0) {
           const columns = stmt.getColumnNames()
           const rows: string[][] = []
@@ -81,14 +104,18 @@ export async function runSQL(code: string): Promise<{
           lastTable = { columns, rows }
         }
         stmt.free()
-        if (isWriteQuery(line)) saveDb()
+        if (isWriteQuery(stmtText)) saveDb()
       } catch (runErr) {
-        return {
-          stdout: '',
-          stderr: `SQL Error: ${runErr}`,
-          error: null,
-          table: lastTable,
-        }
+        errors.push(String(runErr))
+      }
+    }
+
+    if (errors.length > 0) {
+      return {
+        stdout: '',
+        stderr: errors.join('\n'),
+        error: null,
+        table: lastTable,
       }
     }
 

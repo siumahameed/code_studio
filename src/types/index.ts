@@ -1,7 +1,9 @@
 export type Language = 'html' | 'python' | 'sql' | 'c'
+export type ThemeMode = 'dark' | 'light'
+export type MobileTab = 'editor' | 'preview' | 'console'
 
 export interface OutputEntry {
-  type: 'stdout' | 'stderr' | 'error' | 'table' | 'system'
+  type: 'stdout' | 'stderr' | 'error' | 'table' | 'system' | 'success'
   content: string
   timestamp: number
 }
@@ -20,19 +22,32 @@ export interface LanguageConfig {
   monacoLanguage: string
   extension: string
   outputMode: 'console' | 'preview'
-  color: string
+  accent: string
+  tagline: string
+  bg: string
+  cardBg: string
+  darkCardBg: string
 }
 
-export type ThemeMode = 'dark' | 'light'
+export interface Lesson {
+  id: string
+  language: Language
+  title: string
+  description: string
+  icon: string
+  difficulty: 'beginner' | 'intermediate' | 'advanced'
+  code: string
+}
 
 export interface AppState {
   language: Language
   theme: ThemeMode
   code: string
   output: OutputEntry[]
-  activeMobileTab: 'editor' | 'preview' | 'console'
+  activeMobileTab: MobileTab
   isLoading: boolean
   loadingMessage: string
   fontSize: number
   isFullscreen: boolean
+  showWelcome: boolean
 }
