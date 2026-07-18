@@ -4822,6 +4822,7 @@ function callMain(args = []) {
     return handleException(e);
   }
 }
+Module['callMain'] = callMain;
 
 function stackCheckInit() {
   // This is normally called automatically during __wasm_call_ctors but need to
