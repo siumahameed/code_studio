@@ -1,4 +1,4 @@
-import{n as e}from"./index-wp575H6p.js";var t=null,n=null,r=[],i=[];async function a(){if(!t)return n||(n=(async()=>{let n=document.createElement(`script`);n.src=e,document.head.appendChild(n),await new Promise((e,t)=>{n.onload=()=>e(),n.onerror=()=>t(Error(`Failed to load Pyodide`))});let a=window.loadPyodide;t=await a({indexURL:`https://cdn.jsdelivr.net/pyodide/v0.27.4/full/`,stdout:e=>{r.push(e)},stderr:e=>{i.push(e)}})})().catch(()=>{t=null,n=null}),n)}function o(){t&&t.runPython(`
+import{n as e}from"./index-DYHHOAUP.js";var t=null,n=null,r=[],i=[];async function a(){if(!t)return n||(n=(async()=>{let n=document.createElement(`script`);n.src=e,document.head.appendChild(n),await new Promise((e,t)=>{n.onload=()=>e(),n.onerror=()=>t(Error(`Failed to load Pyodide`))});let a=window.loadPyodide;t=await a({indexURL:`https://cdn.jsdelivr.net/pyodide/v0.27.4/full/`,stdout:e=>{r.push(e)},stderr:e=>{i.push(e)}})})().catch(()=>{t=null,n=null}),n)}function o(){t&&t.runPython(`
 import js as _js
 def _cs_input(prompt_text=""):
     result = _js.prompt(prompt_text or "")
