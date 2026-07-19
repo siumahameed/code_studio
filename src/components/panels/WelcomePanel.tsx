@@ -52,23 +52,44 @@ export default function WelcomePanel() {
           })}
         </div>
 
-        <div className={`rounded-xl border overflow-hidden animate-slide-up ${isDark ? 'bg-[#25262b] border-[#373a40]' : 'bg-white border-slate-200 shadow-sm'}`}>
-          <div className={`px-5 py-3 border-b ${isDark ? 'border-[#373a40]' : 'border-slate-100'}`}>
-            <h2 className={`font-bold text-sm ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Code Example</h2>
+        <div className="animate-slide-up">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-1 h-6 rounded-full bg-brand-500" />
+            <div>
+              <h2 className={`font-bold text-base ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>Code Example</h2>
+              <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>See how code looks in the editor</p>
+            </div>
           </div>
-          <div className="p-5">
-            <pre className={`font-mono text-sm leading-relaxed overflow-x-auto ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-              <code>
-                <span className="text-brand-500">print</span>(<span className={isDark ? 'text-amber-300' : 'text-amber-600'}>"Hello, World!"</span>)
-                {'\n'}
-                <span className={isDark ? 'text-slate-500' : 'text-slate-400'}># Welcome to CodeStudio</span>
-                {'\n'}
-                {'\n'}
-                name = <span className={isDark ? 'text-amber-300' : 'text-amber-600'}>"Alice"</span>
-                {'\n'}
-                <span className="text-brand-500">print</span>(<span className={isDark ? 'text-amber-300' : 'text-amber-600'}>f"Hello {name}!"</span>)
-              </code>
-            </pre>
+          <div className={`rounded-xl border overflow-hidden ${isDark ? 'border-[#373a40]' : 'border-slate-200'}`}>
+            <div className={`flex items-center gap-2 px-4 py-2.5 border-b ${isDark ? 'bg-[#2c2e33] border-[#373a40]' : 'bg-slate-100 border-slate-200'}`}>
+              <div className="flex items-center gap-1.5">
+                <span className="w-3 h-3 rounded-full bg-rose-500/80" />
+                <span className="w-3 h-3 rounded-full bg-amber-400/80" />
+                <span className="w-3 h-3 rounded-full bg-emerald-500/80" />
+              </div>
+              <span className={`ml-3 text-xs font-mono ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>example.py</span>
+            </div>
+            <div className={`p-4 md:p-5 ${isDark ? 'bg-[#1a1b1e]' : 'bg-slate-50'}`}>
+              <pre className="font-mono text-sm leading-relaxed overflow-x-auto">
+                <code>
+                  <span className="text-slate-500 select-none">1  </span><span className="text-brand-400">print</span>(<span className={isDark ? 'text-amber-300' : 'text-amber-600'}>"Hello, World!"</span>)
+                  {'\n'}
+                  <span className="text-slate-500 select-none">2  </span><span className={isDark ? 'text-slate-600' : 'text-slate-400'}># Welcome to CodeStudio</span>
+                  {'\n'}
+                  <span className="text-slate-500 select-none">3  </span>
+                  {'\n'}
+                  <span className="text-slate-500 select-none">4  </span>name = <span className={isDark ? 'text-amber-300' : 'text-amber-600'}>"Alice"</span>
+                  {'\n'}
+                  <span className="text-slate-500 select-none">5  </span><span className="text-brand-400">print</span>(<span className={isDark ? 'text-amber-300' : 'text-amber-600'}>f"Hello {name}!"</span>)
+                </code>
+              </pre>
+            </div>
+            <div className={`px-4 py-3 border-t ${isDark ? 'bg-[#25262b] border-[#373a40]' : 'bg-white border-slate-200'}`}>
+              <button onClick={() => { setLanguage('python') }}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-lg text-white bg-brand-600 hover:bg-brand-500 transition-colors active:scale-[0.97]">
+                Try it Yourself <span className="text-base">»</span>
+              </button>
+            </div>
           </div>
         </div>
 
