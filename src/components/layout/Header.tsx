@@ -17,9 +17,7 @@ export default function Header({ onRun, isRunning }: { onRun?: () => void; isRun
       <div className="w-px h-5 bg-slate-300 dark:bg-slate-600 mx-1" />
 
       <div className="flex-1 flex items-center">
-        <div className={`inline-flex rounded-md overflow-hidden border ${isDark ? 'border-[#373a40]' : 'border-slate-200'}`}>
-          <LanguageSelector />
-        </div>
+        <LanguageSelector />
       </div>
 
       <div className="flex items-center gap-1.5">
