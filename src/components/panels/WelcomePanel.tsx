@@ -12,36 +12,42 @@ export default function WelcomePanel() {
   return (
     <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar">
       <div className="max-w-6xl mx-auto px-4 sm:px-8 pb-20 md:pb-10 pt-6 md:pt-12">
-        <div className="text-center mb-10 md:mb-14 animate-slide-up">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
+
+        <div className="text-center mb-12 md:mb-16 animate-slide-up">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight">
             <span className={isDark ? 'text-white' : 'text-slate-900'}>Learn to Code</span>
             <br />
             <span className="text-brand-500">Free. Easy. Fun.</span>
           </h1>
-          <p className={`text-sm sm:text-base max-w-xl mx-auto mt-3 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+          <p className={`text-base sm:text-lg max-w-2xl mx-auto mt-4 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
             CodeStudio is a free online code editor that helps you learn programming.<br />
-            No downloads, no setup — just code.
+            No downloads, no setup &mdash; just code.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-10 md:mb-14">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 mb-12 md:mb-16">
           {LANGUAGES.map((lang, i) => {
             const accent = langAccents[lang.id]
             return (
               <button key={lang.id} onClick={() => setLanguage(lang.id)}
-                className={`animate-pop group relative flex flex-col items-center gap-3 p-5 md:p-6 rounded-xl border-2 text-center transition-all duration-200 active:scale-[0.97] ${isDark ? 'bg-[#25262b] border-[#373a40] hover:border-brand-500/50' : 'bg-white border-slate-200 hover:border-brand-500/50 hover:shadow-md'}`}
+                className={`animate-pop group flex flex-col rounded-xl border-2 text-center transition-all duration-200 active:scale-[0.97] overflow-hidden ${isDark ? 'bg-[#25262b] border-[#373a40] hover:border-brand-500/60' : 'bg-white border-slate-200 hover:border-brand-500/60 hover:shadow-lg'}`}
                 style={{ animationDelay: `${i * 0.06}s` }}>
-                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-2xl shadow-sm group-hover:scale-110 transition-transform duration-200"
-                  style={{ background: `${accent}15` }}>
-                  {lang.icon}
+                <div className="flex flex-col items-center gap-3 pt-6 pb-3 px-5">
+                  <div className="w-14 h-14 rounded-xl flex items-center justify-center text-3xl shadow-sm group-hover:scale-110 transition-transform duration-200"
+                    style={{ background: `${accent}18` }}>
+                    {lang.icon}
+                  </div>
+                  <div>
+                    <div className={`font-bold text-lg ${isDark ? 'text-white' : 'text-slate-900'}`}>{lang.label}</div>
+                    <div className={`text-xs mt-0.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{lang.tagline}</div>
+                  </div>
                 </div>
-                <div className="min-w-0 w-full">
-                  <div className={`font-bold text-base ${isDark ? 'text-white' : 'text-slate-900'}`}>{lang.label}</div>
-                  <div className={`text-xs mt-0.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{lang.tagline}</div>
+                <div className="px-5 pb-5">
+                  <span className="inline-flex items-center justify-center gap-1 w-full py-2.5 text-sm font-bold rounded-lg text-white transition-colors"
+                    style={{ backgroundColor: accent }}>
+                    Try it Yourself <span style={{ fontSize: '1.1em' }}>»</span>
+                  </span>
                 </div>
-                <span className="inline-flex items-center gap-1 px-3 py-1 text-xs font-semibold rounded-full bg-brand-500 text-white group-hover:bg-brand-400 transition-colors">
-                  Try it Yourself <span className="text-sm">›</span>
-                </span>
               </button>
             )
           })}
@@ -67,7 +73,7 @@ export default function WelcomePanel() {
           </div>
         </div>
 
-        <div className="mt-10 md:mt-14">
+        <div className="mt-12 md:mt-16">
           <div className="flex items-center gap-3 mb-5">
             <div className="w-1 h-6 rounded-full bg-brand-500" />
             <div>
@@ -87,14 +93,14 @@ export default function WelcomePanel() {
                   <div className={`font-semibold text-sm ${isDark ? 'text-white' : 'text-slate-900'}`}>{lesson.title}</div>
                   <div className={`text-xs mt-0.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{lesson.description}</div>
                 </div>
-                <span className="text-brand-500 text-lg group-hover:translate-x-0.5 transition-transform">›</span>
+                <span className="text-brand-500 text-lg group-hover:translate-x-0.5 transition-transform">»</span>
               </button>
             ))}
           </div>
         </div>
 
-        <div className={`mt-12 text-center text-xs ${isDark ? 'text-slate-600' : 'text-slate-400'}`}>
-          Built with care for curious learners · Your code saves automatically
+        <div className={`mt-12 text-center text-xs pb-2 ${isDark ? 'text-slate-600' : 'text-slate-400'}`}>
+          Built with care for curious learners &middot; Your code saves automatically
         </div>
       </div>
     </div>
