@@ -9,56 +9,39 @@ import Preview from './components/panels/Preview'
 import MobileTabBar from './components/layout/MobileTabBar'
 import WelcomePanel from './components/panels/WelcomePanel'
 
+const GRADIENT = 'bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.16),transparent_34%),radial-gradient(circle_at_top_right,rgba(59,130,246,0.12),transparent_30%)]'
+
 export default function App() {
-  const { state, addOutput, clearOutput, setLoading, setTheme } = useAppContext()
+  const { state, addOutput, clearOutput, setLoading, setMobileTab } = useAppContext()
   useAutoSave()
 
   const [isRunning, setIsRunning] = useState(false)
   const [splitPos, setSplitPos] = useState(55)
-  const [mobileSplitPos, setMobileSplitPos] = useState(50)
   const isDragging = useRef(false)
-  const splitContainerRef = useRef<HTMLDivElement>(null)
-  const mobileSplitRef = useRef<HTMLDivElement>(null)
-  const isMobileDrag = useRef(false)
+  const splitRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', state.theme === 'dark')
   }, [state.theme])
 
   useEffect(() => {
-    const handler = () => { handleRun() }
+    const handler = () => handleRun()
     window.addEventListener('codestudio-run', handler)
     return () => window.removeEventListener('codestudio-run', handler)
   }, [])
 
   useEffect(() => {
-    const onMouseMove = (e: MouseEvent) => {
-      if (!isDragging.current || !splitContainerRef.current) return
-      const rect = splitContainerRef.current.getBoundingClientRect()
+    const onMove = (e: MouseEvent) => {
+      if (!isDragging.current || !splitRef.current) return
+      const rect = splitRef.current.getBoundingClientRect()
       setSplitPos(Math.min(80, Math.max(20, ((e.clientX - rect.left) / rect.width) * 100)))
     }
-    const onMouseUp = () => { isDragging.current = false }
-    window.addEventListener('mousemove', onMouseMove)
-    window.addEventListener('mouseup', onMouseUp)
+    const onUp = () => { isDragging.current = false }
+    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mouseup', onUp)
     return () => {
-      window.removeEventListener('mousemove', onMouseMove)
-      window.removeEventListener('mouseup', onMouseUp)
-    }
-  }, [])
-
-  useEffect(() => {
-    const onTouchMove = (e: TouchEvent) => {
-      if (!isMobileDrag.current || !mobileSplitRef.current) return
-      const rect = mobileSplitRef.current.getBoundingClientRect()
-      const y = e.touches[0].clientY - rect.top
-      setMobileSplitPos(Math.min(75, Math.max(25, (y / rect.height) * 100)))
-    }
-    const onTouchEnd = () => { isMobileDrag.current = false }
-    window.addEventListener('touchmove', onTouchMove)
-    window.addEventListener('touchend', onTouchEnd)
-    return () => {
-      window.removeEventListener('touchmove', onTouchMove)
-      window.removeEventListener('touchend', onTouchEnd)
+      window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('mouseup', onUp)
     }
   }, [])
 
@@ -66,6 +49,7 @@ export default function App() {
     clearOutput()
     setIsRunning(true)
     setLoading(true)
+    setMobileTab(state.language === 'html' ? 'preview' : 'console')
 
     if (state.language === 'html') {
       setLoading(false)
@@ -108,73 +92,65 @@ export default function App() {
   }, [state.language, state.code, addOutput, clearOutput, setLoading, setMobileTab])
 
   const isDark = state.theme === 'dark'
+  const textClass = isDark ? 'text-white' : 'text-slate-900'
 
   if (state.showWelcome) {
     return (
-      <div className={`h-screen flex flex-col ${isDark ? 'bg-[#1a1b1e]' : 'bg-slate-50'}`}>
-        <div className={`flex items-center justify-between px-4 sm:px-8 py-3 sm:py-4 flex-shrink-0 border-b ${isDark ? 'border-[#373a40]' : 'border-slate-200'}`}>
-          <div className="flex items-center gap-2.5">
-            <div className="flex items-center gap-2">
-              <svg className={`w-5 h-5 ${isDark ? 'text-brand-400' : 'text-brand-600'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-              </svg>
-              <span className={`font-extrabold text-base ${isDark ? 'text-white' : 'text-slate-900'}`}>CodeStudio</span>
-            </div>
-          </div>
-          <button onClick={() => setTheme(isDark ? 'light' : 'dark')}
-            className={`btn-icon ${isDark ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}`}>
-            {isDark ? (
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-            ) : (
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-              </svg>
-            )}
-          </button>
+        <div className={`relative h-screen overflow-hidden px-4 ${textClass}`}>
+        <div className={`pointer-events-none absolute inset-0 ${GRADIENT}`} />
+        <div className="relative z-10 flex h-full flex-col">
+          <WelcomePanel />
         </div>
-        <WelcomePanel />
       </div>
     )
   }
 
   const isHtml = state.language === 'html'
   const rightPanel = isHtml ? <Preview /> : <Console />
+  const mobilePanel = state.activeMobileTab === 'editor' ? <Editor /> : rightPanel
 
   return (
-    <div className={`h-screen flex flex-col ${isDark ? 'bg-[#1a1b1e] text-white' : 'bg-slate-50 text-slate-900'}`}>
-      <Header onRun={handleRun} isRunning={isRunning} />
+    <div className={`relative h-screen overflow-hidden px-4 ${textClass}`}>
+      <div className={`pointer-events-none absolute inset-0 ${GRADIENT}`} />
+      <div className="relative z-10 flex h-full flex-col">
+        <Header onRun={handleRun} isRunning={isRunning} />
 
-      <div ref={splitContainerRef} id="split-container" className="hidden md:flex flex-1 min-h-0 p-2 gap-0">
-        <div style={{ width: `${splitPos}%` }} className="flex flex-col min-h-0 min-w-0 pr-1">
-          <Editor />
-          <StatusBar />
+        <div ref={splitRef} className="hidden md:flex flex-1 min-h-0 p-4 gap-3">
+          <div style={{ width: `${splitPos}%` }} className="flex flex-col min-h-0 min-w-0 gap-3">
+            <Editor />
+            <StatusBar />
+          </div>
+
+          <div
+            onMouseDown={() => { isDragging.current = true }}
+            className={`w-1.5 cursor-col-resize flex-shrink-0 flex items-center justify-center transition-colors ${isDark ? 'hover:bg-white/10' : 'hover:bg-slate-200/80'} active:bg-brand-500/30 rounded-full`}
+          >
+            <div className={`w-0.5 h-10 rounded-full ${isDark ? 'bg-white/12' : 'bg-slate-300'}`} />
+          </div>
+
+          <div key={state.language} style={{ width: `${100 - splitPos}%` }} className="flex flex-col min-h-0 min-w-0 animate-fade-in gap-3">
+            {rightPanel}
+          </div>
         </div>
-        <div onMouseDown={() => { isDragging.current = true }}
-          className={`w-1.5 cursor-col-resize flex-shrink-0 flex items-center justify-center transition-colors ${isDark ? 'hover:bg-[#373a40]' : 'hover:bg-slate-200'} active:bg-brand-500/30 rounded-full`}>
-          <div className={`w-0.5 h-8 rounded-full ${isDark ? 'bg-[#373a40]' : 'bg-slate-300'}`} />
+
+        <div className="md:hidden flex-1 flex flex-col min-h-0 px-4 pt-4 pb-24 gap-3">
+          <div className={`rounded-xl border glass-panel px-3 py-2.5 flex items-center justify-between gap-2 ${isDark ? 'border-white/10' : 'border-white/70'}`}>
+            <div className="min-w-0">
+              <div className={`text-xs font-semibold truncate ${isDark ? 'text-white' : 'text-slate-900'}`}>{state.activeMobileTab === 'editor' ? 'Editor' : (isHtml ? 'Preview' : 'Output')}</div>
+              <div className={`text-[10px] truncate ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Tap bottom bar to switch</div>
+            </div>
+            <div className={`shrink-0 rounded-lg px-2.5 py-1 text-[10px] font-medium ${isDark ? 'bg-white/5 text-slate-300' : 'bg-slate-100 text-slate-600'}`}>
+              {state.language.toUpperCase()}
+            </div>
+          </div>
+
+          <div key={`${state.language}-${state.activeMobileTab}`} className="flex flex-col min-h-0 flex-1 animate-fade-in">
+            {mobilePanel}
+          </div>
         </div>
-        <div key={state.language} style={{ width: `${100 - splitPos}%` }} className="flex flex-col min-h-0 min-w-0 pl-1 animate-fade-in">
-          {rightPanel}
-        </div>
+
+        <MobileTabBar onRun={handleRun} isRunning={isRunning} />
       </div>
-
-      <div ref={mobileSplitRef} className="md:hidden flex-1 flex flex-col min-h-0 pb-16 p-2 gap-0">
-        <div style={{ height: `${mobileSplitPos}%` }} className="flex flex-col min-h-0 pr-0">
-          <Editor />
-        </div>
-        <div onMouseDown={() => { isMobileDrag.current = true }}
-          onTouchStart={() => { isMobileDrag.current = true }}
-          className={`h-1.5 cursor-row-resize flex-shrink-0 flex items-center justify-center transition-colors ${isDark ? 'hover:bg-[#373a40]' : 'hover:bg-slate-200'} active:bg-brand-500/30 rounded-full my-1`}>
-          <div className={`h-0.5 w-8 rounded-full ${isDark ? 'bg-[#373a40]' : 'bg-slate-300'}`} />
-        </div>
-        <div key={state.language} style={{ height: `${100 - mobileSplitPos}%` }} className="flex flex-col min-h-0 pt-0 animate-fade-in">
-          {rightPanel}
-        </div>
-      </div>
-
-      <MobileTabBar onRun={handleRun} isRunning={isRunning} />
     </div>
   )
 }
