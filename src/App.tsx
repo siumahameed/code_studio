@@ -93,22 +93,30 @@ export default function App() {
 
   if (state.showWelcome) {
     return (
-      <div className={`h-screen flex flex-col ${isDark ? 'bg-slate-950' : 'bg-slate-50'}`}>
-        <div className="flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6 flex-shrink-0 relative z-10">
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 flex-shrink-0">
-              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+      <div className={`h-screen flex flex-col ${isDark ? 'bg-[#1a1b1e]' : 'bg-slate-50'}`}>
+        <div className={`flex items-center justify-between px-4 sm:px-8 py-3 sm:py-4 flex-shrink-0 border-b ${isDark ? 'border-[#373a40]' : 'border-slate-200'}`}>
+          <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-2">
+              <svg className={`w-5 h-5 ${isDark ? 'text-brand-400' : 'text-brand-600'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+              <span className={`font-extrabold text-base ${isDark ? 'text-white' : 'text-slate-900'}`}>CodeStudio</span>
             </div>
-            <span className="font-extrabold text-lg bg-gradient-to-r from-indigo-400 via-violet-400 to-emerald-400 bg-clip-text text-transparent truncate">CodeStudio</span>
           </div>
           <button onClick={() => setTheme(isDark ? 'light' : 'dark')}
-            className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg transition-all active:scale-90 flex-shrink-0 ${isDark ? 'bg-slate-800/80 hover:bg-slate-700 backdrop-blur-sm' : 'bg-white/80 hover:bg-white shadow-sm border border-slate-200/60 backdrop-blur-sm'}`}>
-            {isDark ? '☀️' : '🌙'}
+            className={`btn-icon ${isDark ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'}`}>
+            {isDark ? (
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            ) : (
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            )}
           </button>
         </div>
-        <div className="flex-1 min-h-0 relative z-10">
-          <WelcomePanel />
-        </div>
+        <WelcomePanel />
       </div>
     )
   }
@@ -117,34 +125,34 @@ export default function App() {
   const rightPanel = isHtml ? <Preview /> : <Console />
 
   return (
-    <div className={`h-screen flex flex-col ${isDark ? 'bg-slate-900 text-white' : 'bg-slate-50 text-slate-900'}`}>
+    <div className={`h-screen flex flex-col ${isDark ? 'bg-[#1a1b1e] text-white' : 'bg-slate-50 text-slate-900'}`}>
       <Header onRun={handleRun} isRunning={isRunning} />
 
-      <div className="md:hidden flex-1 flex flex-col min-h-0 pb-20">
+      <div className="md:hidden flex-1 flex flex-col min-h-0 pb-16">
         {state.activeMobileTab === 'editor' && (
-          <div className="flex-1 flex flex-col min-h-0 p-3 gap-3">
+          <div className="flex-1 flex flex-col min-h-0 p-2 gap-2">
             <Editor />
             <StatusBar />
           </div>
         )}
         {state.activeMobileTab === 'preview' && (
-          <div className="flex-1 min-h-0 p-3"><Preview /></div>
+          <div className="flex-1 min-h-0 p-2"><Preview /></div>
         )}
         {state.activeMobileTab === 'console' && (
-          <div className="flex-1 min-h-0 p-3"><Console /></div>
+          <div className="flex-1 min-h-0 p-2"><Console /></div>
         )}
       </div>
 
-      <div ref={splitContainerRef} id="split-container" className="hidden md:flex flex-1 min-h-0 p-3 gap-0">
-        <div style={{ width: `${splitPos}%` }} className="flex flex-col min-h-0 min-w-0 pr-1.5">
-          <div className="flex flex-col flex-1 min-h-0" style={{ minHeight: 0 }}><Editor /></div>
+      <div ref={splitContainerRef} id="split-container" className="hidden md:flex flex-1 min-h-0 p-2 gap-0">
+        <div style={{ width: `${splitPos}%` }} className="flex flex-col min-h-0 min-w-0 pr-1">
+          <Editor />
           <StatusBar />
         </div>
         <div onMouseDown={() => { isDragging.current = true }}
-          className={`w-2 cursor-col-resize flex-shrink-0 flex items-center justify-center rounded-full transition-colors ${isDark ? 'hover:bg-slate-700/50' : 'hover:bg-slate-200/50'} active:bg-slate-300/30`}>
-          <div className={`w-0.5 h-10 rounded-full ${isDark ? 'bg-slate-700' : 'bg-slate-300'}`} />
+          className={`w-1.5 cursor-col-resize flex-shrink-0 flex items-center justify-center transition-colors ${isDark ? 'hover:bg-[#373a40]' : 'hover:bg-slate-200'} active:bg-brand-500/30 rounded-full`}>
+          <div className={`w-0.5 h-8 rounded-full ${isDark ? 'bg-[#373a40]' : 'bg-slate-300'}`} />
         </div>
-        <div key={state.language} style={{ width: `${100 - splitPos}%` }} className="flex flex-col min-h-0 min-w-0 pl-1.5 animate-fade-in">
+        <div key={state.language} style={{ width: `${100 - splitPos}%` }} className="flex flex-col min-h-0 min-w-0 pl-1 animate-fade-in">
           {rightPanel}
         </div>
       </div>

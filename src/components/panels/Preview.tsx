@@ -26,22 +26,22 @@ export default function Preview() {
   }
 
   return (
-    <div className={`flex flex-col flex-1 min-h-0 rounded-2xl border overflow-hidden transition-colors ${isDark ? 'bg-slate-800/80 border-slate-700/80' : 'bg-white border-slate-200 shadow-sm shadow-slate-100'}`}>
-      <div className={`flex items-center justify-between px-4 py-2.5 border-b ${isDark ? 'border-slate-700/80 bg-slate-800' : 'border-slate-100 bg-slate-50/80'}`}>
+    <div className={`flex flex-col flex-1 min-h-0 rounded-lg border overflow-hidden transition-colors ${isDark ? 'bg-[#25262b] border-[#373a40]' : 'bg-white border-slate-200'}`}>
+      <div className={`flex items-center justify-between px-3 py-1.5 border-b ${isDark ? 'border-[#373a40] bg-[#25262b]' : 'border-slate-100 bg-slate-50/50'}`}>
         <div className="flex items-center gap-2">
-          <svg className="w-4.5 h-4.5 text-slate-400 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className={`w-3.5 h-3.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
             <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
           </svg>
-          <span className={`text-sm font-bold ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Preview</span>
-          <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300">Live</span>
+          <span className={`text-xs font-semibold ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Preview</span>
+          <span className="badge badge-green text-[9px]">Live</span>
         </div>
         <div className="flex items-center gap-0.5">
-          <button onClick={() => copyToClipboard(state.code)} className="w-8 h-8 flex items-center justify-center rounded-xl text-sm transition active:scale-90 hover:bg-slate-200/80 dark:hover:bg-slate-700/80" title="Copy code" aria-label="Copy code">
-            <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+          <button onClick={() => copyToClipboard(state.code)} className="btn-icon" title="Copy code" aria-label="Copy code">
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
           </button>
-          <button onClick={handleOpenNewTab} className="w-8 h-8 flex items-center justify-center rounded-xl text-sm transition active:scale-90 hover:bg-slate-200/80 dark:hover:bg-slate-700/80" title="Open in new tab" aria-label="Open in new tab">
-            <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+          <button onClick={handleOpenNewTab} className="btn-icon" title="Open in new tab" aria-label="Open in new tab">
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
           </button>
         </div>
       </div>

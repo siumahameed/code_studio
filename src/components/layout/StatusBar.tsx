@@ -18,18 +18,23 @@ export default function StatusBar() {
 
   const stats = useMemo(() => ({ words: countWords(state.code), lines: countLines(state.code), chars: countChars(state.code) }), [state.code])
 
+  const langColors: Record<string, string> = {
+    html: 'text-orange-500', python: 'text-blue-500', sql: 'text-amber-500', c: 'text-slate-500',
+  }
+
   return (
-    <div className={`flex items-center justify-between px-4 py-1.5 mt-1.5 text-xs rounded-xl border ${isDark ? 'bg-slate-800/50 border-slate-700/60 text-slate-500' : 'bg-white/70 border-slate-200/80 text-slate-400'}`}>
-      <div className="flex items-center gap-3 select-none">
-        <span className="flex items-center gap-1.5 text-emerald-500"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />Saved</span>
-        <span className="flex items-center gap-1">Lines <b className={isDark ? 'text-slate-300' : 'text-slate-600'}>{stats.lines}</b></span>
-        <span className="hidden sm:inline flex items-center gap-1">Words <b className={isDark ? 'text-slate-300' : 'text-slate-600'}>{stats.words}</b></span>
-        <span className="hidden md:inline flex items-center gap-1">Chars <b className={isDark ? 'text-slate-300' : 'text-slate-600'}>{stats.chars}</b></span>
+    <div className={`flex items-center justify-between px-3 py-1 text-xs select-none ${isDark ? 'bg-[#1a1b1e] text-slate-500 border-t border-[#373a40]' : 'bg-slate-100 text-slate-400 border-t border-slate-200'}`}>
+      <div className="flex items-center gap-3">
+        <span className="flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-brand-500" />
+          Saved
+        </span>
+        <span>Ln {cursor.line}, Col {cursor.column}</span>
       </div>
-      <div className="flex items-center gap-3 select-none">
-        <span className="flex items-center gap-1">Ln <b className={isDark ? 'text-slate-300' : 'text-slate-600'}>{cursor.line}</b>, Col <b className={isDark ? 'text-slate-300' : 'text-slate-600'}>{cursor.column}</b></span>
-        <span className="hidden sm:inline flex items-center gap-1">{state.fontSize}px</span>
-        <span className="hidden md:inline flex items-center gap-1">{state.language.toUpperCase()}</span>
+      <div className="flex items-center gap-3">
+        <span className="hidden sm:inline">{stats.lines} lines</span>
+        <span className="hidden md:inline">{stats.chars} chars</span>
+        <span className={`font-medium ${langColors[state.language] || ''}`}>{state.language.toUpperCase()}</span>
       </div>
     </div>
   )
