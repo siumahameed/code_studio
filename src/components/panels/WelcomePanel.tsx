@@ -19,8 +19,8 @@ export default function WelcomePanel() {
             <br />
             <span className="text-brand-500">Free. Easy. Fun.</span>
           </h1>
-          <p className={`text-base sm:text-lg max-w-2xl mx-auto mt-4 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-            CodeStudio is a free online code editor that helps you learn programming. No downloads, no setup &mdash; just code.
+          <p className={`text-sm sm:text-base md:text-lg max-w-xl mx-auto mt-4 leading-relaxed px-2 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+            A free online code editor. No downloads, no setup &mdash; just code.
           </p>
         </div>
 
@@ -73,28 +73,35 @@ export default function WelcomePanel() {
         </div>
 
         <div className="mt-12 md:mt-16">
-          <div className="flex items-center gap-3 mb-5">
+          <div className="flex items-center gap-3 mb-6">
             <div className="w-1 h-6 rounded-full bg-brand-500" />
             <div>
-              <h2 className={`font-bold text-sm ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Quick Start Lessons</h2>
-              <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Try a pre-built example</p>
+              <h2 className={`font-bold text-base ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>Quick Start Lessons</h2>
+              <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Try a pre-built example to see how it works</p>
             </div>
           </div>
-          <div className="flex flex-col gap-2">
-            {LESSONS.map((lesson, i) => (
-              <button key={lesson.id} onClick={() => loadLesson(lesson.language, lesson.code)}
-                className={`animate-pop group flex items-center gap-3 p-3 md:p-4 rounded-xl border text-left transition-all duration-200 active:scale-[0.98] ${isDark ? 'bg-[#25262b] border-[#373a40] hover:bg-[#2c2e33] hover:border-brand-500/40' : 'bg-white border-slate-200 hover:border-brand-500/40 hover:shadow-sm'}`}
-                style={{ animationDelay: `${i * 0.06}s` }}>
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg flex-shrink-0 ${isDark ? 'bg-[#2c2e33]' : 'bg-slate-100'}`}>
-                  {lesson.icon}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className={`font-semibold text-sm ${isDark ? 'text-white' : 'text-slate-900'}`}>{lesson.title}</div>
-                  <div className={`text-xs mt-0.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{lesson.description}</div>
-                </div>
-                <span className="text-brand-500 text-lg group-hover:translate-x-0.5 transition-transform">»</span>
-              </button>
-            ))}
+          <div className="grid sm:grid-cols-2 gap-3">
+            {LESSONS.map((lesson, i) => {
+              const accent = langAccents[lesson.language]
+              return (
+                <button key={lesson.id} onClick={() => loadLesson(lesson.language, lesson.code)}
+                  className={`animate-pop group flex items-center gap-4 p-4 md:p-5 rounded-xl border-2 text-left transition-all duration-200 active:scale-[0.98] ${isDark ? 'bg-[#25262b] border-[#373a40] hover:border-brand-500/50' : 'bg-white border-slate-200 hover:border-brand-500/50 hover:shadow-md'}`}
+                  style={{ animationDelay: `${i * 0.06}s` }}>
+                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center text-xl md:text-2xl flex-shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-200"
+                    style={{ background: `${accent}18` }}>
+                    {lesson.icon}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className={`font-bold text-sm md:text-base ${isDark ? 'text-white' : 'text-slate-900'}`}>{lesson.title}</div>
+                    <div className={`text-xs mt-0.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{lesson.description}</div>
+                    <span className={`inline-block mt-2 px-2 py-0.5 text-[10px] font-semibold rounded-full ${isDark ? 'bg-brand-500/15 text-brand-300' : 'bg-brand-50 text-brand-700'}`}>
+                      {lesson.language.toUpperCase()}
+                    </span>
+                  </div>
+                  <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-lg transition-all duration-200 group-hover:translate-x-0.5 ${isDark ? 'bg-[#2c2e33] text-slate-400 group-hover:bg-brand-500/20 group-hover:text-brand-400' : 'bg-slate-100 text-slate-400 group-hover:bg-brand-100 group-hover:text-brand-600'}`}>»</span>
+                </button>
+              )
+            })}
           </div>
         </div>
 
