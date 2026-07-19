@@ -115,14 +115,14 @@ function OutputContent({ output, showBanner }: OutputContentProps) {
 function renderEntry(entry: { type: string; content: string; timestamp: number }) {
   switch (entry.type) {
     case 'stdout':
-      return <div key={entry.timestamp} className="whitespace-pre-wrap break-words font-mono text-sm leading-relaxed text-brand-300">{entry.content}</div>
+      return <div key={entry.timestamp} className="whitespace-pre-wrap break-words font-mono text-xs sm:text-sm leading-relaxed text-brand-300">{entry.content}</div>
     case 'stderr':
-      return <div key={entry.timestamp} className="whitespace-pre-wrap break-words font-mono text-sm leading-relaxed text-amber-300">{entry.content}</div>
+      return <div key={entry.timestamp} className="whitespace-pre-wrap break-words font-mono text-xs sm:text-sm leading-relaxed text-amber-300">{entry.content}</div>
     case 'error':
       return (
-        <div key={entry.timestamp} className="flex items-start gap-2 p-3 rounded-lg bg-rose-500/10 border border-rose-500/20">
-          <span className="text-rose-400 font-bold flex-shrink-0">!</span>
-          <div className="text-rose-300 text-sm font-mono whitespace-pre-wrap break-words">{entry.content}</div>
+        <div key={entry.timestamp} className="flex items-start gap-2 p-2 sm:p-3 rounded-lg bg-rose-500/10 border border-rose-500/20">
+          <span className="text-rose-400 font-bold shrink-0">!</span>
+          <div className="text-rose-300 text-xs sm:text-sm font-mono whitespace-pre-wrap break-words">{entry.content}</div>
         </div>
       )
     case 'table':
@@ -130,9 +130,9 @@ function renderEntry(entry: { type: string; content: string; timestamp: number }
         const t = JSON.parse(entry.content) as { columns: string[]; rows: string[][] }
         return <TableRenderer key={entry.timestamp} columns={t.columns} rows={t.rows} />
       } catch {
-        return <div key={entry.timestamp} className="whitespace-pre-wrap text-brand-300">{entry.content}</div>
+        return <div key={entry.timestamp} className="whitespace-pre-wrap text-xs sm:text-sm text-brand-300">{entry.content}</div>
       }
     default:
-      return <div key={entry.timestamp} className="whitespace-pre-wrap text-slate-400">{entry.content}</div>
+      return <div key={entry.timestamp} className="whitespace-pre-wrap text-xs sm:text-sm text-slate-400">{entry.content}</div>
   }
 }
