@@ -20,8 +20,7 @@ export default function WelcomePanel() {
             <span className="text-brand-500">Free. Easy. Fun.</span>
           </h1>
           <p className={`text-base sm:text-lg max-w-2xl mx-auto mt-4 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-            CodeStudio is a free online code editor that helps you learn programming.<br />
-            No downloads, no setup &mdash; just code.
+            CodeStudio is a free online code editor that helps you learn programming. No downloads, no setup &mdash; just code.
           </p>
         </div>
 
