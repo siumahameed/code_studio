@@ -1,47 +1,69 @@
 import { useAppContext } from '../../context/AppContext'
+import { LANGUAGES } from '../../utils/constants'
+import type { Language } from '../../types'
 
-const FEATURES = [
-  { id: 'html', icon: '🌐', label: 'HTML', accent: '#e34f26' },
-  { id: 'python', icon: '🐍', label: 'Python', accent: '#3776ab' },
-  { id: 'sql', icon: '🗄️', label: 'SQL', accent: '#e38c00' },
-  { id: 'c', icon: '⚙️', label: 'C', accent: '#555555' },
-]
+const ACCENTS: Record<string, string> = {
+  html: '#e34f26', python: '#3776ab', sql: '#e38c00', c: '#555555',
+}
+
+const DESCRIPTIONS: Record<string, string> = {
+  html: 'Build and preview web pages with HTML, CSS, and JavaScript — see results instantly.',
+  python: 'Write scripts, solve problems, and learn programming with a beginner-friendly language.',
+  sql: 'Create tables, insert data, and query databases with structured query language.',
+  c: 'Learn low-level programming with functions, loops, and memory concepts.',
+}
 
 export default function WelcomeFeatures() {
   const { state, setLanguage } = useAppContext()
   const isDark = state.theme === 'dark'
 
   return (
-    <section>
-      <div className="max-w-lg mb-10">
-        <h2 className={`text-2xl font-extrabold ${isDark ? 'text-white' : 'text-slate-900'}`}>Features</h2>
-        <p className={`mt-2 text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Pick a language and start coding instantly.</p>
-      </div>
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {FEATURES.map((f) => (
-          <button
-            key={f.id}
-            onClick={() => setLanguage(f.id as any)}
-            className={`group rounded-xl border text-center transition-all active:scale-[0.98] ${
-              isDark
-                ? 'border-white/8 bg-white/[0.02] hover:border-brand-400/30'
-                : 'border-slate-200 bg-white hover:shadow-lg hover:-translate-y-0.5'
-            }`}
-          >
-            <div className="p-6 sm:p-8">
-              <div className="flex items-center justify-center" style={{ color: f.accent }}>
-                <div className="flex h-14 w-14 items-center justify-center rounded-xl text-3xl transition-transform group-hover:scale-110" style={{ background: `${f.accent}12` }}>
-                  {f.icon}
+    <section className="min-h-[calc(100vh-3.5rem)] flex items-center justify-center py-12 sm:py-20">
+      <div className="w-full max-w-2xl mx-auto space-y-8">
+        {/* Header */}
+        <div className="text-center">
+          <h2 className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>Features</h2>
+          <p className={`mt-3 text-sm sm:text-base ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Pick a language and start coding instantly.</p>
+        </div>
+
+        {/* Language cards */}
+        <div className="grid gap-4 sm:grid-cols-2">
+          {LANGUAGES.map((lang) => {
+            const accent = ACCENTS[lang.id] || '#666'
+            const desc = DESCRIPTIONS[lang.id] || ''
+            return (
+              <button
+                key={lang.id}
+                onClick={() => setLanguage(lang.id as Language)}
+                className={`group text-left rounded-xl border transition-all active:scale-[0.98] ${
+                  isDark
+                    ? 'border-white/8 bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04]'
+                    : 'border-slate-200 bg-white hover:shadow-lg hover:-translate-y-0.5'
+                }`}
+              >
+                <div className="p-6 flex items-start gap-4">
+                  <div
+                    className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-2xl transition-transform group-hover:scale-110"
+                    style={{ background: `${accent}15` }}
+                  >
+                    {lang.icon}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <div className={`text-base font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{lang.label}</div>
+                      <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-md ${isDark ? 'bg-white/5 text-slate-400' : 'bg-slate-100 text-slate-500'}`}>{lang.extension}</span>
+                    </div>
+                    <div className={`mt-1 text-xs leading-relaxed ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{desc}</div>
+                    <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold transition-all group-hover:gap-2.5" style={{ color: accent }}>
+                      Start coding
+                      <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className={`mt-4 text-lg font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{f.label}</div>
-              <div className="mt-5 inline-flex items-center gap-2 text-sm font-medium transition-all group-hover:gap-3" style={{ color: f.accent }}>
-                Start coding
-                <span className="text-base">→</span>
-              </div>
-            </div>
-          </button>
-        ))}
+              </button>
+            )
+          })}
+        </div>
       </div>
     </section>
   )

@@ -19,7 +19,7 @@ export default function WelcomeAbout() {
   const isDark = state.theme === 'dark'
 
   return (
-    <section className="py-12 sm:py-20">
+    <section className="min-h-[calc(100vh-3.5rem)] flex items-center justify-center py-12 sm:py-20">
       <div className="w-full max-w-2xl mx-auto space-y-8">
         {/* Hero card */}
         <div className={`rounded-xl border p-8 sm:p-10 text-center ${isDark ? 'border-white/8 bg-white/[0.02]' : 'border-slate-200 bg-white'}`}>
