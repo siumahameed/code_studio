@@ -22,13 +22,13 @@ export default function WelcomePanel() {
     <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar">
       {/* Navbar */}
       <div className={`border-b ${isDark ? 'border-white/5 bg-[#0f1012]' : 'border-slate-200 bg-white'}`}>
-        <div className="flex items-center justify-between h-14 px-4">
+        <div className="flex items-center justify-between h-12 sm:h-14 px-3 sm:px-4">
           {/* Logo */}
-          <button onClick={() => setTab('home')} className="flex items-center gap-2.5 shrink-0">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-500 text-white">
-              <Code className="h-4 w-4" />
+          <button onClick={() => setTab('home')} className="flex items-center gap-2 shrink-0">
+            <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg bg-brand-500 text-white">
+              <Code className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </div>
-            <span className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>CodeStudio</span>
+            <span className={`text-xs sm:text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>CodeStudio</span>
           </button>
 
           {/* Desktop tabs */}
@@ -54,16 +54,16 @@ export default function WelcomePanel() {
           </div>
 
           {/* Right */}
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <button
               onClick={() => setTheme(isDark ? 'light' : 'dark')}
-              className={`flex items-center justify-center w-8 h-8 rounded-lg transition-all active:scale-90 ${isDark ? 'text-slate-400 hover:text-white hover:bg-white/5' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'}`}
+              className={`flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-lg transition-all active:scale-90 ${isDark ? 'text-slate-400 hover:text-white hover:bg-white/5' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'}`}
             >
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              {isDark ? <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
             </button>
             <button
               onClick={() => setShowWelcome(false)}
-              className="group relative overflow-hidden rounded-lg bg-gradient-to-r from-brand-600 to-brand-500 px-5 py-2.5 text-xs font-semibold text-white shadow-md shadow-brand-600/20 transition-all duration-300 hover:scale-[1.03] hover:shadow-lg hover:shadow-brand-500/25 active:scale-[0.97]"
+              className="group relative overflow-hidden rounded-lg bg-gradient-to-r from-brand-600 to-brand-500 px-3 sm:px-5 py-2 sm:py-2.5 text-[10px] sm:text-xs font-semibold text-white shadow-md shadow-brand-600/20 transition-all duration-300 hover:scale-[1.03] hover:shadow-lg hover:shadow-brand-500/25 active:scale-[0.97]"
             >
               <span className="relative z-10">Open IDE</span>
               <span className="absolute inset-0 -translate-x-full rounded-lg bg-gradient-to-r from-brand-500 to-brand-400 transition-transform duration-300 group-hover:translate-x-0" />
@@ -72,17 +72,21 @@ export default function WelcomePanel() {
         </div>
       </div>
 
-      <div className={`px-4 ${tab === 'home' || tab === 'about' ? 'pb-0 pt-0' : 'pb-16 pt-8 sm:pt-10'}`}>
+      <div className={`px-3 sm:px-4 ${tab === 'home' || tab === 'about' ? 'pb-0 pt-0' : 'pb-20 sm:pb-16 pt-6 sm:pt-10'}`}>
         {/* Mobile tabs */}
-        <div className={`sm:hidden flex gap-1 mb-8 p-1 rounded-lg border ${isDark ? 'border-white/5 bg-white/[0.02]' : 'border-slate-200 bg-slate-50/50'}`}>
+        <div className={`sm:hidden sticky top-0 z-20 flex gap-1 mb-6 p-1 rounded-xl border backdrop-blur-lg ${
+          isDark
+            ? 'border-white/8 bg-[#0f1012]/90'
+            : 'border-slate-200 bg-white/90'
+        }`}>
           {TABS.map(item => (
             <button
               key={item.id}
               onClick={() => setTab(item.id)}
-              className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+              className={`flex-1 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all active:scale-[0.97] ${
                 tab === item.id
                   ? 'bg-brand-600 text-white shadow-sm'
-                  : isDark ? 'text-slate-400' : 'text-slate-500'
+                  : isDark ? 'text-slate-400 hover:text-slate-200' : 'text-slate-500 hover:text-slate-700'
               }`}
             >
               {item.label}

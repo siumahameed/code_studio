@@ -96,7 +96,7 @@ export default function App() {
 
   if (state.showWelcome) {
     return (
-        <div className={`relative h-screen overflow-hidden px-4 ${textClass}`}>
+      <div className={`relative h-screen overflow-hidden ${textClass}`}>
         <div className={`pointer-events-none absolute inset-0 ${GRADIENT}`} />
         <div className="relative z-10 flex h-full flex-col">
           <WelcomePanel />
@@ -110,7 +110,7 @@ export default function App() {
   const mobilePanel = state.activeMobileTab === 'editor' ? <Editor /> : rightPanel
 
   return (
-    <div className={`relative h-screen overflow-hidden px-4 ${textClass}`}>
+    <div className={`relative h-screen overflow-hidden ${textClass}`}>
       <div className={`pointer-events-none absolute inset-0 ${GRADIENT}`} />
       <div className="relative z-10 flex h-full flex-col">
         <Header onRun={handleRun} isRunning={isRunning} />
@@ -123,7 +123,7 @@ export default function App() {
 
           <div
             onMouseDown={() => { isDragging.current = true }}
-            className={`w-1.5 cursor-col-resize flex-shrink-0 flex items-center justify-center transition-colors ${isDark ? 'hover:bg-white/10' : 'hover:bg-slate-200/80'} active:bg-brand-500/30 rounded-full`}
+            className={`w-1.5 cursor-col-resize shrink-0 flex items-center justify-center transition-colors ${isDark ? 'hover:bg-white/10' : 'hover:bg-slate-200/80'} active:bg-brand-500/30 rounded-full`}
           >
             <div className={`w-0.5 h-10 rounded-full ${isDark ? 'bg-white/12' : 'bg-slate-300'}`} />
           </div>
@@ -133,13 +133,15 @@ export default function App() {
           </div>
         </div>
 
-        <div className="md:hidden flex-1 flex flex-col min-h-0 px-4 pt-4 pb-24 gap-3">
-          <div className={`rounded-xl border glass-panel px-3 py-2.5 flex items-center justify-between gap-2 ${isDark ? 'border-white/10' : 'border-white/70'}`}>
-            <div className="min-w-0">
-              <div className={`text-xs font-semibold truncate ${isDark ? 'text-white' : 'text-slate-900'}`}>{state.activeMobileTab === 'editor' ? 'Editor' : (isHtml ? 'Preview' : 'Output')}</div>
-              <div className={`text-[10px] truncate ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Tap bottom bar to switch</div>
+        <div className="md:hidden flex-1 flex flex-col min-h-0 px-2 pt-2 pb-28 gap-2">
+          <div className={`flex items-center justify-between gap-2 px-3 py-2 rounded-xl border ${isDark ? 'bg-[#0b0c0f] border-white/8' : 'bg-white/90 border-slate-200'}`}>
+            <div className="flex items-center gap-2 min-w-0">
+              <div className={`w-1.5 h-1.5 rounded-full ${isDark ? 'bg-brand-400' : 'bg-brand-500'}`} />
+              <span className={`text-xs font-semibold truncate ${isDark ? 'text-white/80' : 'text-slate-700'}`}>
+                {state.activeMobileTab === 'editor' ? 'Editor' : (isHtml ? 'Preview' : 'Output')}
+              </span>
             </div>
-            <div className={`shrink-0 rounded-lg px-2.5 py-1 text-[10px] font-medium ${isDark ? 'bg-white/5 text-slate-300' : 'bg-slate-100 text-slate-600'}`}>
+            <div className={`shrink-0 rounded-md px-2.5 py-1 text-[10px] font-semibold tracking-wide ${isDark ? 'bg-white/5 text-slate-400' : 'bg-slate-100 text-slate-500'}`}>
               {state.language.toUpperCase()}
             </div>
           </div>

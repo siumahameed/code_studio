@@ -31,36 +31,38 @@ export default function SnippetsModal({ isDark, onSelect, onClose }: Props) {
   }, [query])
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4" onClick={onClose}>
       <div className={`absolute inset-0 ${isDark ? 'bg-black/50' : 'bg-slate-900/30'}`} />
       <div
-        className={`relative max-w-lg w-full rounded-lg border shadow-xl overflow-hidden ${isDark ? 'bg-[#1a1b1e] border-white/10' : 'bg-white border-slate-200'}`}
+        className={`relative w-full sm:max-w-lg sm:rounded-lg border shadow-xl overflow-hidden ${
+          isDark ? 'bg-[#1a1b1e] border-white/10' : 'bg-white border-slate-200'
+        } rounded-t-2xl sm:rounded-t-lg max-h-[85vh] sm:max-h-auto`}
         onClick={e => e.stopPropagation()}
       >
-        <div className={`flex items-center gap-3 px-4 py-3 border-b ${isDark ? 'border-white/5' : 'border-slate-100'}`}>
+        <div className={`flex items-center gap-3 px-3 sm:px-4 py-3 border-b ${isDark ? 'border-white/5' : 'border-slate-100'}`}>
           <div className={`flex items-center gap-2 flex-1 rounded-lg border px-3 py-2 ${isDark ? 'border-white/10 bg-black/20' : 'border-slate-200 bg-slate-50'}`}>
-            <Search className={`w-3.5 h-3.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`} />
+            <Search className={`w-3.5 h-3.5 shrink-0 ${isDark ? 'text-slate-500' : 'text-slate-400'}`} />
             <input
               value={query}
               onChange={e => setQuery(e.target.value)}
               placeholder="Search snippets..."
-              className="flex-1 bg-transparent text-sm outline-none"
+              className="flex-1 bg-transparent text-sm outline-none min-w-0"
               autoFocus
             />
           </div>
-          <button onClick={onClose} className={`p-2 rounded-lg transition-all active:scale-90 ${isDark ? 'hover:bg-white/5 text-slate-400' : 'hover:bg-slate-100 text-slate-500'}`}>
+          <button onClick={onClose} className={`p-2 rounded-lg transition-all active:scale-90 shrink-0 ${isDark ? 'hover:bg-white/5 text-slate-400' : 'hover:bg-slate-100 text-slate-500'}`}>
             <Close className="w-4 h-4" />
           </button>
         </div>
-        <div className="p-3 max-h-80 overflow-y-auto grid gap-2">
+        <div className="p-3 max-h-[60vh] sm:max-h-80 overflow-y-auto grid gap-2">
           {filtered.map(s => (
             <button
               key={s.id}
               onClick={() => { onSelect(s.code); onClose() }}
               className={`text-left p-3 rounded-lg border transition-all active:scale-[0.99] ${isDark ? 'border-white/5 hover:border-white/20 bg-white/[0.02]' : 'border-slate-100 hover:border-slate-200 bg-white'}`}
             >
-              <div className={`text-sm font-semibold ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>{s.label}</div>
-              <pre className={`mt-1.5 text-xs font-mono whitespace-pre-wrap max-h-16 overflow-hidden ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{s.code}</pre>
+              <div className={`text-xs sm:text-sm font-semibold ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>{s.label}</div>
+              <pre className={`mt-1.5 text-[10px] sm:text-xs font-mono whitespace-pre-wrap max-h-16 overflow-hidden ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{s.code}</pre>
             </button>
           ))}
         </div>
