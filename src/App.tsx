@@ -10,13 +10,16 @@ import MobileTabBar from './components/layout/MobileTabBar'
 import WelcomePanel from './components/panels/WelcomePanel'
 
 export default function App() {
-  const { state, addOutput, clearOutput, setLoading, setMobileTab, setTheme } = useAppContext()
+  const { state, addOutput, clearOutput, setLoading, setTheme } = useAppContext()
   useAutoSave()
 
   const [isRunning, setIsRunning] = useState(false)
   const [splitPos, setSplitPos] = useState(55)
+  const [mobileSplitPos, setMobileSplitPos] = useState(50)
   const isDragging = useRef(false)
   const splitContainerRef = useRef<HTMLDivElement>(null)
+  const mobileSplitRef = useRef<HTMLDivElement>(null)
+  const isMobileDrag = useRef(false)
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', state.theme === 'dark')
@@ -43,13 +46,28 @@ export default function App() {
     }
   }, [])
 
+  useEffect(() => {
+    const onTouchMove = (e: TouchEvent) => {
+      if (!isMobileDrag.current || !mobileSplitRef.current) return
+      const rect = mobileSplitRef.current.getBoundingClientRect()
+      const y = e.touches[0].clientY - rect.top
+      setMobileSplitPos(Math.min(75, Math.max(25, (y / rect.height) * 100)))
+    }
+    const onTouchEnd = () => { isMobileDrag.current = false }
+    window.addEventListener('touchmove', onTouchMove)
+    window.addEventListener('touchend', onTouchEnd)
+    return () => {
+      window.removeEventListener('touchmove', onTouchMove)
+      window.removeEventListener('touchend', onTouchEnd)
+    }
+  }, [])
+
   const handleRun = useCallback(async () => {
     clearOutput()
     setIsRunning(true)
     setLoading(true)
 
     if (state.language === 'html') {
-      setMobileTab('preview')
       setLoading(false)
       setIsRunning(false)
       return
@@ -128,21 +146,6 @@ export default function App() {
     <div className={`h-screen flex flex-col ${isDark ? 'bg-[#1a1b1e] text-white' : 'bg-slate-50 text-slate-900'}`}>
       <Header onRun={handleRun} isRunning={isRunning} />
 
-      <div className="md:hidden flex-1 flex flex-col min-h-0 pb-16">
-        {state.activeMobileTab === 'editor' && (
-          <div className="flex-1 flex flex-col min-h-0 p-2 gap-2">
-            <Editor />
-            <StatusBar />
-          </div>
-        )}
-        {state.activeMobileTab === 'preview' && (
-          <div className="flex-1 min-h-0 p-2"><Preview /></div>
-        )}
-        {state.activeMobileTab === 'console' && (
-          <div className="flex-1 min-h-0 p-2"><Console /></div>
-        )}
-      </div>
-
       <div ref={splitContainerRef} id="split-container" className="hidden md:flex flex-1 min-h-0 p-2 gap-0">
         <div style={{ width: `${splitPos}%` }} className="flex flex-col min-h-0 min-w-0 pr-1">
           <Editor />
@@ -153,6 +156,20 @@ export default function App() {
           <div className={`w-0.5 h-8 rounded-full ${isDark ? 'bg-[#373a40]' : 'bg-slate-300'}`} />
         </div>
         <div key={state.language} style={{ width: `${100 - splitPos}%` }} className="flex flex-col min-h-0 min-w-0 pl-1 animate-fade-in">
+          {rightPanel}
+        </div>
+      </div>
+
+      <div ref={mobileSplitRef} className="md:hidden flex-1 flex flex-col min-h-0 pb-16 p-2 gap-0">
+        <div style={{ height: `${mobileSplitPos}%` }} className="flex flex-col min-h-0 pr-0">
+          <Editor />
+        </div>
+        <div onMouseDown={() => { isMobileDrag.current = true }}
+          onTouchStart={() => { isMobileDrag.current = true }}
+          className={`h-1.5 cursor-row-resize flex-shrink-0 flex items-center justify-center transition-colors ${isDark ? 'hover:bg-[#373a40]' : 'hover:bg-slate-200'} active:bg-brand-500/30 rounded-full my-1`}>
+          <div className={`h-0.5 w-8 rounded-full ${isDark ? 'bg-[#373a40]' : 'bg-slate-300'}`} />
+        </div>
+        <div key={state.language} style={{ height: `${100 - mobileSplitPos}%` }} className="flex flex-col min-h-0 pt-0 animate-fade-in">
           {rightPanel}
         </div>
       </div>
